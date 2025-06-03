@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+<body>
+    <!-- Navigation Buttons -->
+    <div class="nav-bar">
+        <a href="../index.html" class="nav-btn" title="Home">
+            <i class="fas fa-home"></i>
+        </a>
+        <a href="login.html" class="nav-btn" title="Login" id="authNavBtn">
+            <i class="fas fa-user"></i>
+        </a>
+        <a href="https://github.com" target="_blank" class="nav-btn" title="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
+
+    <!-- Login Card (shown when logged out) -->
+    <div class="weather-card" id="loginView">
+        <div class="location">Welcome Back</div>
+        
+        <div class="input-group">
+            <label class="input-label" for="username">Username</label>
+            <input type="text" class="input-field" id="username" placeholder="Enter your username">
+        </div>
+        
+        <div class="input-group">
+            <label class="input-label" for="password">Password</label>
+            <input type="password" class="input-field" id="password" placeholder="Enter your password">
+        </div>
+        
+        <div class="button-group">
+            <button class="btn btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
+            <button class="btn btn-login" id="login-form">Login</button>
+        </div>
+        
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <!-- Welcome Card (shown when logged in) -->
+    <div class="weather-card" id="welcomeView" style="display: none;">
+        <div class="location">Welcome, <span id="displayUsername"></span>!</div>
+        
+        <div class="weather-icon">
+            <i class="fas fa-smile-beam"></i>
+        </div>
+        
+        <p class="welcome-message">You're successfully logged in.</p>
+        
+        <div class="button-group">
+            <button class="btn btn-dashboard" onclick="window.location.href='dashboard.html'">Dashboard</button>
+            <button class="btn btn-logout" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+</body>
+<script src="../script/login.js"></script>
+</html>

@@ -1,0 +1,149 @@
+---
+import '../styles/index.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+    <div class="nav-bar">
+        <a href="index.html" class="nav-btn" title="Home">
+            <i class="fas fa-home"></i>
+        </a>
+        <a href="login.html" class="nav-btn" title="Login">
+            <i class="fas fa-user"></i>
+        </a>
+        <a href="https://github.com" target="_blank" class="nav-btn" title="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
+
+    <div class="search-container">
+        <input type="text" class="search-input" id="cityInput" placeholder="Enter city name..." value="Friedrichshafen">
+        <button class="search-btn" onclick="changeCity()">Search</button>
+    </div>
+    
+    <div class="weather-card">
+        <div class="location" id="location">Loading...</div>
+        <div class="weather-icon" id="weatherIcon">☀️</div>
+        
+        <div class="weather-main">
+            <!-- Wind Speed on Left -->
+            <div class="weather-details">
+                <div class="detail-label">Wind</div>
+                <div class="detail-value" id="windSpeed">--</div>
+                <div class="unit" id="windUnit">m/s</div>
+            </div>
+            
+            <!-- Temperature in Middle -->
+            <div class="temperature-container">
+                <div class="temperature" id="temperature">--<span class="unit">°C</span></div>
+            </div>
+            
+            <!-- Humidity on Right -->
+            <div class="weather-details">
+                <div class="detail-label">Humidity</div>
+                <div class="detail-value" id="humidity">--</div>
+                <div class="unit">%</div>
+            </div>
+        </div>
+        
+        <button class="refresh-btn" onclick="fetchWeather()">Refresh Weather</button>
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+</body>
+<script>
+
+function fetchWeather() {
+    const token = localStorage.getItem('authToken');
+    
+    fetch('http://localhost:8080/weather', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        })
+        .then(data => {
+            // Update existing temperature display
+            document.getElementById('location').textContent = data.city;
+            document.getElementById('temperature').innerHTML = 
+                `${data.temperature.toFixed(1)}<span class="unit">${data.tempUnit}</span>`;
+            
+            // Update new fields
+            document.getElementById('humidity').textContent = data.humidity;
+            document.getElementById('windSpeed').textContent = data.windSpeed.toFixed(1);
+            
+            // Update icon based on temperature
+            updateWeatherIcon(data.temperature);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('errorMessage').textContent = 'Error loading weather data';
+        });
+}
+
+function updateWeatherIcon(temp) {
+    const icon = document.getElementById('weatherIcon');
+    if(temp > 25) {
+        icon.textContent = '☀️';
+    } else if(temp > 15) {
+        icon.textContent = '⛅';
+    } else {
+        icon.textContent = '❄️';
+    }
+}
+
+function changeCity() {
+    const cityInput = document.getElementById('cityInput');
+    const city = cityInput.value.trim();
+    
+    if (!city) {
+        document.getElementById('errorMessage').textContent = 'Please enter a city name';
+        return;
+    }
+    
+    document.getElementById('errorMessage').textContent = '';
+    
+    fetch('http://localhost:8080/weather/city', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ city: city })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('City not found');
+        }
+        return response.text();
+    })
+    .then(() => {
+        fetchWeather(); // Refresh weather after city change
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('errorMessage').textContent = 'City not found or service unavailable';
+    });
+}
+
+// Load weather when page loads
+document.addEventListener('DOMContentLoaded', fetchWeather);
+
+// Allow pressing Enter in search input
+document.getElementById('cityInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        changeCity();
+    }
+});
+</script>
+</html>

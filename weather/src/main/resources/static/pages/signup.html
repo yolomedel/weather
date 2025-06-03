@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="../styles/signup.css" rel="stylesheet">
+</head>
+<body>
+    <div class="nav-bar">
+        <a href="../index.html" class="nav-btn" title="Home">
+            <i class="fas fa-home"></i>
+        </a>
+        <a href="login.html" class="nav-btn" title="Login">
+            <i class="fas fa-user"></i>
+        </a>
+        <a href="https://github.com" target="_blank" class="nav-btn" title="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
+    
+    <div class="signup-card">
+        <div class="app-title">Weather App Sign Up</div>
+        
+        <div class="input-group">
+            <label class="input-label" for="username">Username</label>
+            <input type="text" class="input-field" id="username" placeholder="Enter your username">
+        </div>
+        
+        <div class="input-group">
+            <label class="input-label" for="email">Email</label>
+            <input type="email" class="input-field" id="email" placeholder="Enter your email">
+        </div>
+        
+        <div class="input-group">
+            <label class="input-label" for="password">Password</label>
+            <input type="password" class="input-field" id="password" placeholder="Create a password">
+        </div>
+        
+        <button class="signup-btn" id ="signup-form" onclick="handleSignup()">Create Account</button>
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <div class="login-link">
+            Already have an account? <a href="login.html">Log in</a>
+        </div>
+    </div>
+</body>
+<script src="../script/signup.js"></script>
+</html>
