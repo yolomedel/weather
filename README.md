@@ -1,7 +1,9 @@
 to start the Frontend: in Console:
 
 cd in folder absolute-accretion
-npm install
+
+    npm install
+
 run:    
 
     npm run dev
