@@ -21,7 +21,7 @@ import '../styles/login.css';
         <a href="login.html" class="nav-btn" title="Login" id="authNavBtn">
             <i class="fas fa-user"></i>
         </a>
-        <a href="https://github.com" target="_blank" class="nav-btn" title="GitHub">
+        <a href="https://github.com/yolomedel/weather" target="_blank" class="nav-btn" title="GitHub">
             <i class="fab fa-github"></i>
         </a>
     </div>
@@ -90,7 +90,7 @@ async function login(event) {
             window.location.assign("http://localhost:4321/index.html"); // Redirect on success
         } else {
             const errorText = await response.text();
-            message = `Fehler: ${errorText}`;
+            message = `Error: Wrong password or username`;
             document.getElementById('errorMessage').textContent = message;
         }
     } catch (e) {
